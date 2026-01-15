@@ -8,12 +8,19 @@ class Order:
     self.products = []
 
   def add(self, product : Product):
+      
     #Write your code here
-    pass
+      self.products.append(product)
+      print(f"Agregado: {product.name} - ${product.price}")
+      pass
 
   def calculateTotal(self) -> float:
     #Write your code here
-    pass
+      total = 0.0
+      for p in self.products:
+          total += Product.price
+      return total
+      pass
   
   def show(self):    
     print("Hello : "+self.customer.describe())
