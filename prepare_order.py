@@ -103,15 +103,16 @@ f.	Agregar productos: Utilizar la instancia la clase 'Order', del paso c y llama
 """
 #Write your code here
 
-from users import *
-from products import Hamburger, Soda, Drink, HappyMeal
-from util import CSVFileManager, CashierConverter, CustomerConverter, ProductConverter
-from orders import Order
-    
+from users.user import *
+from products.product import Hamburger, Soda, Drink, HappyMeal
+from util.file_manager import CSVFileManager
+from util.converter import CashierConverter, CustomerConverter, ProductConverter
+from orders.order import Order
+
 class PrepareOrder:
     def run(self):
         # 1. Leer archivos CSV
-        # Se asume que la carpeta 'data' está en el mismo directorio
+        # Asegúrate de que la carpeta 'data' contenga los CSV
         df_cashiers = CSVFileManager("data/cashiers.csv").read()
         df_customers = CSVFileManager("data/customers.csv").read()
         df_hamburgers = CSVFileManager("data/hamburgers.csv").read()
@@ -126,9 +127,9 @@ class PrepareOrder:
         customer_converter = CustomerConverter()
         customers_list = customer_converter.convert(df_customers)
         
-        # Convertir productos pasando la clase correspondiente
         product_converter = ProductConverter()
         products_list = []
+        # Convertimos cada tipo pasando su clase específica
         products_list.extend(product_converter.convert(df_hamburgers, Hamburger))
         products_list.extend(product_converter.convert(df_sodas, Soda))
         products_list.extend(product_converter.convert(df_drinks, Drink))
@@ -137,9 +138,8 @@ class PrepareOrder:
         # 3. Preparar Orden
         
         # a. Buscar cajero
-        # cashier_converter.print(cashiers_list) # Opcional: mostrar lista para elegir
+        # cashier_converter.print(cashiers_list) # Descomentar para ver lista
         dni_cashier = input("Introduce DNI cashier: ")
-        # Buscar en la lista
         cashier = next((c for c in cashiers_list if str(c.dni) == dni_cashier), None)
         
         if cashier:
@@ -161,7 +161,7 @@ class PrepareOrder:
         # c. Inicializar Orden
         order = Order(cashier, customer)
 
-        # d. Mostrar productos a vender (Opcional, puede ser una lista larga)
+        # d. Mostrar productos a vender (Opcional)
         # print("Product list:")
         # product_converter.print(products_list)
 
@@ -176,9 +176,7 @@ class PrepareOrder:
             else:
                 print("Product not found")
 
-            # Preguntar si quiere añadir otro
             cont = input("Do you want to add another product? (Yes/No): ")
-            # Aceptamos 'Yes', 'yes', 'y', etc.
             if cont.lower() not in ['yes', 'y']:
                 break
         
