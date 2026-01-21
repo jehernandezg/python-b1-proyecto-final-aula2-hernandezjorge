@@ -10,6 +10,7 @@ class FoodPackage (ABC):
     def material(self) -> str:
         pass
     def describe(self):
+        # Ajustado a 'Wrapping' para coincidir con el ejemplo de consola
         return f"Wrapping: {self.pack()} , Material: {self.material()}"    
     
 class Wrapping(FoodPackage):  
@@ -25,8 +26,9 @@ class Bottle(FoodPackage):
         return "Plastic"
       
 class Glass(FoodPackage):  
+    # Asumiendo vaso de cartón para bebidas calientes/tés según descripción
     def pack(self) -> str:
-        return "Cup" # Asumiendo 'vaso' para bebidas calientes/tés
+        return "Cup"
     def material(self) -> str:
         return "Cardboard"
 
